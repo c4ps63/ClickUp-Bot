@@ -151,33 +151,28 @@ def format_clickup_message(commit_details, ai_summary):
 def extract_task_id(branch_name, commit_message):
     """Ekstraktuj ClickUp Task ID iz branch imena ili commit poruke"""
     import re
-   
-    # Pattern za ClickUp task ID
-    # Primer: CU-abc123, TASK-123, #123456789
+
     patterns = [
         r'CU-([a-zA-Z0-9]+)',           # CU-abc123
         r'TASK-(\d+)',                   # TASK-123
         r'#(\d{7,})',                    # #12345678 (ClickUp Task ID)
         r'\[([a-zA-Z0-9-]+)\]',         # [CU-abc123] u commit poruci
+        r'/([a-z0-9]{9})',
     ]
    
     # Prvo probaj branch name
     for pattern in patterns:
         match = re.search(pattern, branch_name, re.IGNORECASE)
         if match:
-            task_id = match.group(1)
-            print(f"Task ID pronađen u branch-u: {task_id}")
-            return task_id
+            return match.group(1)
    
     # Ako nema u branch-u, probaj commit poruku
     for pattern in patterns:
         match = re.search(pattern, commit_message, re.IGNORECASE)
         if match:
-            task_id = match.group(1)
-            print(f"Task ID pronađen u commit poruci: {task_id}")
-            return task_id
+            return match.group(1)
    
-    print("⚠️ Task ID nije pronađen u branch-u ni u commit poruci")
+    print("Task ID nije pronađen u branch-u ni u commit poruci")
     return None
 
 

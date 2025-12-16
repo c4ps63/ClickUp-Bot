@@ -1,4 +1,4 @@
-# Git->ClickUp Automation Bot
+# Git -> ClickUp Automation Bot
 
 Automatski bot koji prati Git push-ove i kreira azuriranja na ClickUp karticama
 

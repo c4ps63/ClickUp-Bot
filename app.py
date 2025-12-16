@@ -152,21 +152,27 @@ def extract_task_id(branch_name, commit_message):
     """Ekstraktuj ClickUp Task ID iz branch imena ili commit poruke"""
     import re
 
+    # Pattern za format: feature/TASKID-... ili samo /TASKID-...
     pattern = r'/([a-z0-9]{9})-'
-   
+    
+    print(f"Tražim Task ID u branch-u: '{branch_name}'")
+    print(f"Tražim Task ID u commit poruci: '{commit_message}'")
+    
     # Prvo probaj branch name
-    for pattern in patterns:
-        match = re.search(pattern, branch_name, re.IGNORECASE)
-        if match:
-            return match.group(1)
-   
+    match = re.search(pattern, branch_name, re.IGNORECASE)
+    if match:
+        task_id = match.group(1)
+        print(f"Task ID pronađen u branch-u: {task_id}")
+        return task_id
+    
     # Ako nema u branch-u, probaj commit poruku
-    for pattern in patterns:
-        match = re.search(pattern, commit_message, re.IGNORECASE)
-        if match:
-            return match.group(1)
-   
-    print("Task ID nije pronađen u branch-u ni u commit poruci")
+    match = re.search(pattern, commit_message, re.IGNORECASE)
+    if match:
+        task_id = match.group(1)
+        print(f"Task ID pronađen u commit poruci: {task_id}")
+        return task_id
+    
+    print("Task ID nije pronađen. Format treba biti: feature/TASKID-... ili /TASKID-...")
     return None
 
 

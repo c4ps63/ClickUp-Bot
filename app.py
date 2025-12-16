@@ -152,13 +152,7 @@ def extract_task_id(branch_name, commit_message):
     """Ekstraktuj ClickUp Task ID iz branch imena ili commit poruke"""
     import re
 
-    patterns = [
-        r'CU-([a-zA-Z0-9]+)',           # CU-abc123
-        r'TASK-(\d+)',                   # TASK-123
-        r'#(\d{7,})',                    # #12345678 (ClickUp Task ID)
-        r'\[([a-zA-Z0-9-]+)\]',         # [CU-abc123] u commit poruci
-        r'/([a-z0-9]{9})',
-    ]
+    pattern = r'/([a-z0-9]{9})-'
    
     # Prvo probaj branch name
     for pattern in patterns:

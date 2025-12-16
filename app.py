@@ -68,32 +68,32 @@ def analyze_with_ai(commit_details):
        
         prompt = f"""Analiziraj ovaj Git commit i napiši kratak update za razvojni tim.
 
-**Commit info:**
+Commit info:
 - Autor: {commit_details['author']}
 - Poruka: {commit_details['message']}
 - Datum: {commit_details['date']}
 - SHA: {commit_details['sha']}
 
-**Statistika:**
+Statistika:
 - Ukupno promena: {commit_details['stats']['total']} linija
 - Dodato: {commit_details['stats']['additions']} linija
 - Obrisano: {commit_details['stats']['deletions']} linija
 
-**Promenjeni fajlovi:**
+Promenjeni fajlovi:
 {files_summary}
 
-**Promene u kodu:**
+Promene u kodu:
 {code_changes[:1000]}
 
 Napiši update u sledecem formatu:
 
-**Kratak opis (2 rečenice):**
+Kratak opis (2 rečenice):
 [Šta je urađeno i zašto]
 
-**Izmenjeni fajlovi:**
+Izmenjeni fajlovi:
 [Lista glavnih fajlova sa objašnjenjem šta je promenjeno]
 
-**Nove/Izmenjene funkcionalnosti:**
+Nove/Izmenjene funkcionalnosti:
 [Lista ključnih metoda/funkcija sa kratkim opisom]
 
 Budi koncizan i fokusiraj se na BITNE promene za tim."""
@@ -125,12 +125,12 @@ Budi koncizan i fokusiraj se na BITNE promene za tim."""
 
 def format_clickup_message(commit_details, ai_summary):
     """Formatira poruku za ClickUp karticu"""
-    message = f""" **Git Push Update**
+    message = f""" Git Push Update
 
-**Branch:** `{commit_details.get('branch', 'main')}`
-**Commit:** `{commit_details['sha']}`
-**Autor:** {commit_details['author']}
-**Vreme:** {commit_details['date']}
+Branch: `{commit_details.get('branch', 'main')}`
+Commit: `{commit_details['sha']}`
+Autor: {commit_details['author']}
+Vreme: {commit_details['date']}
 
 ---
 
@@ -138,13 +138,11 @@ def format_clickup_message(commit_details, ai_summary):
 
 ---
 
-📊 **Statistika:**
-- ✅ Dodato: {commit_details['stats']['additions']} linija
-- ❌ Obrisano: {commit_details['stats']['deletions']} linija
-- 📝 Ukupno: {commit_details['stats']['total']} linija
-- 📁 Fajlova: {len(commit_details['files'])}
+Statistika:
+- Dodato: {commit_details['stats']['additions']} linija
+- Obrisano: {commit_details['stats']['deletions']} linija
 
-**Commit poruka:** _{commit_details['message']}_
+Commit poruka: {commit_details['message']}
 """
     return message
 

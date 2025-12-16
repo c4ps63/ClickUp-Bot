@@ -152,27 +152,34 @@ def extract_task_id(branch_name, commit_message):
     """Ekstraktuj ClickUp Task ID iz branch imena ili commit poruke"""
     import re
 
-    # Pattern za format: feature/TASKID-... ili samo /TASKID-...
-    pattern = r'/([a-z0-9]{9})-'
+    print(f"🔍 Tražim Task ID u branch-u: '{branch_name}'")
+    print(f"🔍 Tražim Task ID u commit poruci: '{commit_message}'")
     
-    print(f"Tražim Task ID u branch-u: '{branch_name}'")
-    print(f"Tražim Task ID u commit poruci: '{commit_message}'")
+    # Probaj oba formata
+    patterns = [
+        (r'/([a-z0-9]{9})-', 'sa /'),      # feature/86c74hx82-...
+        (r'([a-z0-9]{9})-', 'bez /'),      # 86c74hx82-...
+    ]
     
     # Prvo probaj branch name
-    match = re.search(pattern, branch_name, re.IGNORECASE)
-    if match:
-        task_id = match.group(1)
-        print(f"Task ID pronađen u branch-u: {task_id}")
-        return task_id
+    for pattern, tip in patterns:
+        match = re.search(pattern, branch_name, re.IGNORECASE)
+        if match:
+            task_id = match.group(1)
+            print(f" Task ID pronađen u branch-u ({tip}): {task_id}")
+            return task_id
     
     # Ako nema u branch-u, probaj commit poruku
-    match = re.search(pattern, commit_message, re.IGNORECASE)
-    if match:
-        task_id = match.group(1)
-        print(f"Task ID pronađen u commit poruci: {task_id}")
-        return task_id
+    for pattern, tip in patterns:
+        match = re.search(pattern, commit_message, re.IGNORECASE)
+        if match:
+            task_id = match.group(1)
+            print(f" Task ID pronađen u commit poruci ({tip}): {task_id}")
+            return task_id
     
-    print("Task ID nije pronađen. Format treba biti: feature/TASKID-... ili /TASKID-...")
+    print(" Task ID nije pronađen.")
+    print(f"   Branch bio: '{branch_name}'")
+    print(f"   Commit poruka bila: '{commit_message}'")
     return None
 
 
@@ -303,9 +310,11 @@ def webhook():
        
         # Informacije o push-u
         repo_name = payload['repository']['full_name']
-        branch = payload['ref'].split('/')[-1]  # refs/heads/main -> main
+        branch = payload['ref'].replace('refs/heads/', '')
         pusher = payload['pusher']['name']
-       
+
+        print(f"🔍 DEBUG - Payload ref: '{payload['ref']}'")
+        print(f"🔍 DEBUG - Branch nakon parsiranja: '{branch}'")
         print(f"Repo: {repo_name}")
         print(f"Branch: {branch}")
         print(f"Pusher: {pusher}")

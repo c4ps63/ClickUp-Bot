@@ -68,35 +68,35 @@ def analyze_with_ai(commit_details):
        
         prompt = f"""Analiziraj ovaj Git commit i napiši kratak update za razvojni tim.
 
-Commit info:
-- Autor: {commit_details['author']}
-- Poruka: {commit_details['message']}
-- Datum: {commit_details['date']}
-- SHA: {commit_details['sha']}
+        Commit info:
+        - Autor: {commit_details['author']}
+        - Poruka: {commit_details['message']}
+        - Datum: {commit_details['date']}
+        - SHA: {commit_details['sha']}
 
-Statistika:
-- Ukupno promena: {commit_details['stats']['total']} linija
-- Dodato: {commit_details['stats']['additions']} linija
-- Obrisano: {commit_details['stats']['deletions']} linija
+        Statistika:
+        - Ukupno promena: {commit_details['stats']['total']} linija
+        - Dodato: {commit_details['stats']['additions']} linija
+        - Obrisano: {commit_details['stats']['deletions']} linija
 
-Promenjeni fajlovi:
-{files_summary}
+        Promenjeni fajlovi:
+        {files_summary}
 
-Promene u kodu:
-{code_changes[:1000]}
+        Promene u kodu:
+        {code_changes[:1000]}
 
-Napiši update u sledecem formatu:
+        Napiši update u sledecem formatu:
 
-Kratak opis (2 rečenice):
-[Šta je urađeno i zašto]
+        Kratak opis (2 rečenice):
+        [Šta je urađeno i zašto]
 
-Izmenjeni fajlovi:
-[Lista glavnih fajlova sa objašnjenjem šta je promenjeno]
+        Izmenjeni fajlovi:
+        [Lista glavnih fajlova sa objašnjenjem šta je promenjeno]
 
-Nove/Izmenjene funkcionalnosti:
-[Lista ključnih metoda/funkcija sa kratkim opisom]
+        Nove/Izmenjene funkcionalnosti:
+        [Lista ključnih metoda/funkcija sa kratkim opisom]
 
-Budi koncizan i fokusiraj se na BITNE promene za tim."""
+        Budi koncizan i fokusiraj se na BITNE promene za tim."""
 
         # Pozovi Groq AI
         client = Groq(api_key=GROQ_API_KEY)
@@ -150,8 +150,8 @@ def extract_task_id(branch_name, commit_message):
     """Ekstraktuj ClickUp Task ID iz branch imena ili commit poruke"""
     import re
 
-    print(f"🔍 Tražim Task ID u branch-u: '{branch_name}'")
-    print(f"🔍 Tražim Task ID u commit poruci: '{commit_message}'")
+    print(f" Tražim Task ID u branch-u: '{branch_name}'")
+    print(f" Tražim Task ID u commit poruci: '{commit_message}'")
     
     # Probaj oba formata
     patterns = [
